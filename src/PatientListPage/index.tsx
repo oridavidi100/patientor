@@ -27,18 +27,21 @@ const PatientListPage = () => {
 
   const submitNewPatient = async (values: PatientFormValues) => {
     try {
-      const { data: newPatient } = await axios.post<Patient>(`${apiBaseUrl}/patients`, values);
+      const { data: newPatient } = await axios.post<Patient>(
+        `${apiBaseUrl}/patients`,
+        values
+      );
       dispatch({ type: 'ADD_PATIENT', payload: newPatient });
       closeModal();
-    } catch (e) {
+    } catch (e: any) {
       console.error(e.response?.data || 'Unknown Error');
       setError(e.response?.data?.error || 'Unknown error');
     }
   };
 
   return (
-    <div className='App'>
-      <Container textAlign='center'>
+    <div className="App">
+      <Container textAlign="center">
         <h3>Patient list</h3>
       </Container>
       <Table celled>
@@ -70,7 +73,12 @@ const PatientListPage = () => {
           ))}
         </Table.Body>
       </Table>
-      <AddPatientModal modalOpen={modalOpen} onSubmit={submitNewPatient} error={error} onClose={closeModal} />
+      <AddPatientModal
+        modalOpen={modalOpen}
+        onSubmit={submitNewPatient}
+        error={error}
+        onClose={closeModal}
+      />
       <Button onClick={() => openModal()}>Add New Patient</Button>
     </div>
   );
